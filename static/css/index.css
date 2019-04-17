@@ -28,8 +28,13 @@ body {
 	width:200px;
 	display:inline-block;
 	position:absolute;
-	bottom:0;
-	top:$navbar-item-img-max-height;
+	top:30;
+}
+
+.fa-user-shield {
+	font-size: 2rem;
+	margin-top:.5rem;
+	margin-left:5rem;
 }
 
 .container {

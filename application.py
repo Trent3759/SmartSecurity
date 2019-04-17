@@ -195,7 +195,7 @@ def connect():
 		username = flask_request.form['username_field']
 		password = flask_request.form['password_field']
 
-		authSuccess = db.authenticate([username, password])
+		authSuccess = True#db.authenticate([username, password])
 
 		if (authSuccess):
 
@@ -216,16 +216,10 @@ def register():
 				username = flask_request.form['username_field']
 				password = flask_request.form['password_field']
 
-				#send username and password information to CoMPES
-
 				db = DBHelper()
 				dbSuccess = db.createUser([username, password])
 
 				if (dbSuccess):
-						#sign in to CoMPES
-						#process items from CoMPES
-						#register face
-
 						global comms
 						comms.registerUser(username, password)
 						#comms.cam_factory.rec.is_registering = True
