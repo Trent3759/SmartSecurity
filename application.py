@@ -40,7 +40,7 @@ from autobahn.twisted.websocket import WebSocketClientFactory, \
 		 WebSocketServerFactory, WebSocketClientProtocol, \
 		 WebSocketServerProtocol, connectWS, listenWS
 
-from flask import Flask, render_template, request as flask_request, make_response
+from flask import Flask, render_template, request as flask_request, make_response, redirect, url_for
 
 app = Flask(__name__)
 app.config["CACHE_TYPE"] = "null"
@@ -180,7 +180,11 @@ class CameraFactory(WebSocketServerFactory):
 
 @app.route("/", methods = ["GET"])
 def index():
-		return render_template("index.html")
+	return render_template("index.html")
+
+@app.route("/active", methods = ["GET"])
+def active():
+	return render_template('active.html')
 
 @app.route("/reg_complete", methods = ["GET"])
 def reg_complete():
@@ -195,18 +199,12 @@ def connect():
 		username = flask_request.form['username_field']
 		password = flask_request.form['password_field']
 
-		authSuccess = True#db.authenticate([username, password])
+		authSuccess = True #db.authenticate([username, password])
 
 		if (authSuccess):
-
-				#comms.registerUser(username, password)
-				#comms.web_factory.rec.is_registering = True
-				message = "Welcome " + str(username) + "!"
-				feed_name = "Camera 1"
-				resp = make_response(render_template('active.html', message = message, feed_name = feed_name))
-				return resp
+			return redirect(url_for('active'))
 		else:
-				return render_template('index.html', message="Failed to authenticate. Please try again. ")
+			return render_template('index.html', message="Failed to authenticate. Please try again. ")
 
 		db.disconnect()
 
@@ -230,6 +228,15 @@ def register():
 						return "failed register"
 		else:
 				return render_template("register.html")
+
+
+@app.route("/camera_page", methods = ["GET"])
+def camera_page():
+		return render_template("cameras.html")
+
+@app.route("/error_page", methods = ["GET"])
+def error_page():
+	return render_template("error.html")
 
 #==========================Main========================================
 def main():
