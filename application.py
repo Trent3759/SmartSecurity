@@ -2,7 +2,7 @@
 Project: Project - SS (Smart Security)
 Description: A security system for modern problems.
 Notes:
-
+"""
 #==============================Imports=======================================
 import sys, ujson, numpy as np, base64
 from twisted.python import log
